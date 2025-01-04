@@ -7,10 +7,18 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
 *.local
+
+# Dist
+node_modules
+node_modules
+dist/
+dist-ssr
+.vinxi
+.output
+.vercel
+.netlify
+.wrangler
 
 # Editor directories and files
 .vscode/*
