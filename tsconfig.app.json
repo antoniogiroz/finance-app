@@ -11,7 +11,7 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "~/*": ["./app/*"]
+      "@/*": ["./src/*"]
     },
     "allowImportingTsExtensions": true,
 
@@ -25,5 +25,5 @@
     "skipLibCheck": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "src/routeTree.gen.ts"]
 }

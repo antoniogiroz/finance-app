@@ -6,6 +6,5 @@ export default antfu({
   stylistic: {
     semi: true,
   },
-  ignores: ['**/routeTree.gen.ts'],
   plugins: [pluginRouter],
 });
