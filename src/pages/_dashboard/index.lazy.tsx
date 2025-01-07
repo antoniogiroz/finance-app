@@ -1,4 +1,6 @@
+import { useNewAccount } from '@/components/accounts/use-new-account';
 import { Button } from '@/components/ui/button';
+import { allAccounts } from '@/data/accounts';
 import { createLazyFileRoute } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/_dashboard/')({
@@ -6,10 +8,16 @@ export const Route = createLazyFileRoute('/_dashboard/')({
 });
 
 function HomePage() {
+  const { open } = useNewAccount();
+
   return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-      <Button>Click Me</Button>
+    <div>
+      <Button onClick={open}>Open</Button>
+      {allAccounts.map(account => (
+        <div key={account.id}>
+          <h2>{account.name}</h2>
+        </div>
+      ))}
     </div>
   );
 }
