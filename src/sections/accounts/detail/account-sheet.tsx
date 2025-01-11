@@ -1,12 +1,11 @@
 import type { AccountFormValues } from './account-schema';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { useAccounts } from '../-hooks/use-accounts';
+import { useAccountStore } from '../account.store';
+import { useAccounts } from '../use-accounts';
 import { AccountForm } from './account-form';
-import { useAccountStore } from './account.store';
 
 export function AccountSheet() {
   const { account, isOpen, close } = useAccountStore();
-
   const { createAccount, isLoading } = useAccounts();
 
   async function handleSubmit(values: AccountFormValues) {

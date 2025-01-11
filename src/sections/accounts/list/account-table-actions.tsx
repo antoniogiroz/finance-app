@@ -8,8 +8,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useConfirm } from '@/hooks/use-confirm';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
-import { useAccounts } from '../-hooks/use-accounts';
-import { useAccountStore } from './account.store';
+import { useAccountStore } from '../account.store';
+import { useAccounts } from '../use-accounts';
 
 interface Props {
   account: Account;
