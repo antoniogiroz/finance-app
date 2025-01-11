@@ -1,23 +1,22 @@
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Trash } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { Button } from '../ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
-import { Input } from '../ui/input';
 import { accountFormSchema, type AccountFormValues } from './account-schema';
 
 interface Props {
-  id?: string;
-  defaultValues?: AccountFormValues;
+  account?: AccountFormValues;
   onSubmit: (values: AccountFormValues) => void;
   onDelete?: () => void;
   disabled?: boolean;
 }
 
-export function AccountForm({ id, defaultValues, onSubmit, onDelete, disabled }: Props) {
+export function AccountForm({ account, onSubmit, onDelete, disabled }: Props) {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
-    defaultValues: defaultValues || {
+    defaultValues: account || {
       name: '',
     },
   });
@@ -54,10 +53,10 @@ export function AccountForm({ id, defaultValues, onSubmit, onDelete, disabled }:
         />
 
         <Button className="w-full" disabled={disabled}>
-          {id ? 'Save changes' : 'Create account'}
+          {account ? 'Save changes' : 'Create account'}
         </Button>
 
-        {!!id && (
+        {!!account && (
           <Button
             type="button"
             className="w-full"

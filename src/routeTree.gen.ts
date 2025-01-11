@@ -35,7 +35,9 @@ const DashboardSettingsLazyImport = createFileRoute('/_dashboard/settings')();
 const DashboardCategoriesLazyImport = createFileRoute(
   '/_dashboard/categories',
 )();
-const DashboardAccountsLazyImport = createFileRoute('/_dashboard/accounts')();
+const DashboardAccountsIndexLazyImport = createFileRoute(
+  '/_dashboard/accounts/',
+)();
 
 // Create/Update Routes
 
@@ -99,14 +101,6 @@ const DashboardCategoriesLazyRoute = DashboardCategoriesLazyImport.update({
   import('./pages/_dashboard/categories.lazy').then((d) => d.Route),
 );
 
-const DashboardAccountsLazyRoute = DashboardAccountsLazyImport.update({
-  id: '/accounts',
-  path: '/accounts',
-  getParentRoute: () => DashboardLayoutRoute,
-} as any).lazy(() =>
-  import('./pages/_dashboard/accounts.lazy').then((d) => d.Route),
-);
-
 const UsersNewRoute = UsersNewImport.update({
   id: '/users/new',
   path: '/users/new',
@@ -130,6 +124,16 @@ const AuthSignInRoute = AuthSignInImport.update({
   path: '/sign-in',
   getParentRoute: () => AuthLayoutRoute,
 } as any);
+
+const DashboardAccountsIndexLazyRoute = DashboardAccountsIndexLazyImport.update(
+  {
+    id: '/accounts/',
+    path: '/accounts/',
+    getParentRoute: () => DashboardLayoutRoute,
+  } as any,
+).lazy(() =>
+  import('./pages/_dashboard/accounts/index.lazy').then((d) => d.Route),
+);
 
 const UsersUserIdIndexRoute = UsersUserIdIndexImport.update({
   id: '/users/$userId/',
@@ -208,13 +212,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersNewImport;
       parentRoute: typeof rootRoute;
     };
-    '/_dashboard/accounts': {
-      id: '/_dashboard/accounts';
-      path: '/accounts';
-      fullPath: '/accounts';
-      preLoaderRoute: typeof DashboardAccountsLazyImport;
-      parentRoute: typeof DashboardLayoutImport;
-    };
     '/_dashboard/categories': {
       id: '/_dashboard/categories';
       path: '/categories';
@@ -285,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdIndexImport;
       parentRoute: typeof rootRoute;
     };
+    '/_dashboard/accounts/': {
+      id: '/_dashboard/accounts/';
+      path: '/accounts';
+      fullPath: '/accounts';
+      preLoaderRoute: typeof DashboardAccountsIndexLazyImport;
+      parentRoute: typeof DashboardLayoutImport;
+    };
   }
 }
 
@@ -305,19 +309,19 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 );
 
 interface DashboardLayoutRouteChildren {
-  DashboardAccountsLazyRoute: typeof DashboardAccountsLazyRoute;
   DashboardCategoriesLazyRoute: typeof DashboardCategoriesLazyRoute;
   DashboardSettingsLazyRoute: typeof DashboardSettingsLazyRoute;
   DashboardTransactionsLazyRoute: typeof DashboardTransactionsLazyRoute;
   DashboardIndexLazyRoute: typeof DashboardIndexLazyRoute;
+  DashboardAccountsIndexLazyRoute: typeof DashboardAccountsIndexLazyRoute;
 }
 
 const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
-  DashboardAccountsLazyRoute: DashboardAccountsLazyRoute,
   DashboardCategoriesLazyRoute: DashboardCategoriesLazyRoute,
   DashboardSettingsLazyRoute: DashboardSettingsLazyRoute,
   DashboardTransactionsLazyRoute: DashboardTransactionsLazyRoute,
   DashboardIndexLazyRoute: DashboardIndexLazyRoute,
+  DashboardAccountsIndexLazyRoute: DashboardAccountsIndexLazyRoute,
 };
 
 const DashboardLayoutRouteWithChildren = DashboardLayoutRoute._addFileChildren(
@@ -331,7 +335,6 @@ export interface FileRoutesByFullPath {
   '/sign-up': typeof AuthSignUpRoute;
   '/posts/new': typeof PostsNewRoute;
   '/users/new': typeof UsersNewRoute;
-  '/accounts': typeof DashboardAccountsLazyRoute;
   '/categories': typeof DashboardCategoriesLazyRoute;
   '/settings': typeof DashboardSettingsLazyRoute;
   '/transactions': typeof DashboardTransactionsLazyRoute;
@@ -342,6 +345,7 @@ export interface FileRoutesByFullPath {
   '/users/$userId/edit': typeof UsersUserIdEditRoute;
   '/posts/$postId': typeof PostsPostIdIndexRoute;
   '/users/$userId': typeof UsersUserIdIndexRoute;
+  '/accounts': typeof DashboardAccountsIndexLazyRoute;
 }
 
 export interface FileRoutesByTo {
@@ -351,7 +355,6 @@ export interface FileRoutesByTo {
   '/sign-up': typeof AuthSignUpRoute;
   '/posts/new': typeof PostsNewRoute;
   '/users/new': typeof UsersNewRoute;
-  '/accounts': typeof DashboardAccountsLazyRoute;
   '/categories': typeof DashboardCategoriesLazyRoute;
   '/settings': typeof DashboardSettingsLazyRoute;
   '/transactions': typeof DashboardTransactionsLazyRoute;
@@ -362,6 +365,7 @@ export interface FileRoutesByTo {
   '/users/$userId/edit': typeof UsersUserIdEditRoute;
   '/posts/$postId': typeof PostsPostIdIndexRoute;
   '/users/$userId': typeof UsersUserIdIndexRoute;
+  '/accounts': typeof DashboardAccountsIndexLazyRoute;
 }
 
 export interface FileRoutesById {
@@ -373,7 +377,6 @@ export interface FileRoutesById {
   '/_auth/sign-up': typeof AuthSignUpRoute;
   '/posts/new': typeof PostsNewRoute;
   '/users/new': typeof UsersNewRoute;
-  '/_dashboard/accounts': typeof DashboardAccountsLazyRoute;
   '/_dashboard/categories': typeof DashboardCategoriesLazyRoute;
   '/_dashboard/settings': typeof DashboardSettingsLazyRoute;
   '/_dashboard/transactions': typeof DashboardTransactionsLazyRoute;
@@ -384,6 +387,7 @@ export interface FileRoutesById {
   '/users/$userId/edit': typeof UsersUserIdEditRoute;
   '/posts/$postId/': typeof PostsPostIdIndexRoute;
   '/users/$userId/': typeof UsersUserIdIndexRoute;
+  '/_dashboard/accounts/': typeof DashboardAccountsIndexLazyRoute;
 }
 
 export interface FileRouteTypes {
@@ -395,7 +399,6 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/posts/new'
     | '/users/new'
-    | '/accounts'
     | '/categories'
     | '/settings'
     | '/transactions'
@@ -405,7 +408,8 @@ export interface FileRouteTypes {
     | '/posts/$postId/edit'
     | '/users/$userId/edit'
     | '/posts/$postId'
-    | '/users/$userId';
+    | '/users/$userId'
+    | '/accounts';
   fileRoutesByTo: FileRoutesByTo;
   to:
     | ''
@@ -414,7 +418,6 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/posts/new'
     | '/users/new'
-    | '/accounts'
     | '/categories'
     | '/settings'
     | '/transactions'
@@ -424,7 +427,8 @@ export interface FileRouteTypes {
     | '/posts/$postId/edit'
     | '/users/$userId/edit'
     | '/posts/$postId'
-    | '/users/$userId';
+    | '/users/$userId'
+    | '/accounts';
   id:
     | '__root__'
     | '/_auth'
@@ -434,7 +438,6 @@ export interface FileRouteTypes {
     | '/_auth/sign-up'
     | '/posts/new'
     | '/users/new'
-    | '/_dashboard/accounts'
     | '/_dashboard/categories'
     | '/_dashboard/settings'
     | '/_dashboard/transactions'
@@ -444,7 +447,8 @@ export interface FileRouteTypes {
     | '/posts/$postId/edit'
     | '/users/$userId/edit'
     | '/posts/$postId/'
-    | '/users/$userId/';
+    | '/users/$userId/'
+    | '/_dashboard/accounts/';
   fileRoutesById: FileRoutesById;
 }
 
@@ -509,11 +513,11 @@ export const routeTree = rootRoute
     "/_dashboard": {
       "filePath": "_dashboard/layout.tsx",
       "children": [
-        "/_dashboard/accounts",
         "/_dashboard/categories",
         "/_dashboard/settings",
         "/_dashboard/transactions",
-        "/_dashboard/"
+        "/_dashboard/",
+        "/_dashboard/accounts/"
       ]
     },
     "/about": {
@@ -532,10 +536,6 @@ export const routeTree = rootRoute
     },
     "/users/new": {
       "filePath": "users/new.tsx"
-    },
-    "/_dashboard/accounts": {
-      "filePath": "_dashboard/accounts.lazy.tsx",
-      "parent": "/_dashboard"
     },
     "/_dashboard/categories": {
       "filePath": "_dashboard/categories.lazy.tsx",
@@ -570,6 +570,10 @@ export const routeTree = rootRoute
     },
     "/users/$userId/": {
       "filePath": "users/$userId.index.tsx"
+    },
+    "/_dashboard/accounts/": {
+      "filePath": "_dashboard/accounts/index.lazy.tsx",
+      "parent": "/_dashboard"
     }
   }
 }

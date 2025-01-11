@@ -1,10 +1,9 @@
-import { NewAccountSheet } from '@/components/accounts/new-account-sheet';
+import { AccountSheet } from '@/pages/_dashboard/accounts/-components/account-sheet';
 
 export function SheetProvider() {
   return (
     <>
-      <NewAccountSheet>
-      </NewAccountSheet>
+      <AccountSheet />
     </>
   );
 }
