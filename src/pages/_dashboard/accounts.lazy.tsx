@@ -1,9 +1,8 @@
-import { DataTable } from '@/components/data-table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAccountStore } from '@/sections/accounts/account.store';
-import { columns } from '@/sections/accounts/list/accounts-table-columns';
+import { AccountsTable } from '@/sections/accounts/list/accounts-table';
 import { useAccounts } from '@/sections/accounts/use-accounts';
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { Loader2, Plus } from 'lucide-react';
@@ -14,7 +13,7 @@ export const Route = createLazyFileRoute('/_dashboard/accounts')({
 
 function AccountsPage() {
   const { open } = useAccountStore();
-  const { accounts, isLoading, deleteAccounts } = useAccounts();
+  const { isLoading } = useAccounts();
 
   if (isLoading) {
     return (
@@ -44,16 +43,7 @@ function AccountsPage() {
           </Button>
         </CardHeader>
         <CardContent>
-          <DataTable
-            filterKey="name"
-            columns={columns}
-            data={accounts}
-            onDelete={(row) => {
-              const ids = row.map((r) => r.original.id);
-              deleteAccounts({ ids });
-            }}
-            disabled={isLoading}
-          />
+          <AccountsTable />
         </CardContent>
       </Card>
     </div>

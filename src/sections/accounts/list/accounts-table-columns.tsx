@@ -3,7 +3,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowUpDown } from 'lucide-react';
-import { AccountActions } from './account-table-actions';
+import { AccountActions } from './accounts-table-actions';
 
 export const columns: ColumnDef<Account>[] = [
   {
