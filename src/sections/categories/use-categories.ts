@@ -1,14 +1,14 @@
-import { allAccounts } from '@/data/accounts';
+import { allCategories } from '@/data/categories';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export function useAccounts() {
+export function useCategories() {
   const queryClient = useQueryClient();
 
-  const { data: accounts, isLoading } = useQuery({
-    queryKey: ['accounts'],
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ['categories'],
     queryFn: async () => {
-      return allAccounts;
+      return allCategories;
     },
   });
 
@@ -16,57 +16,57 @@ export function useAccounts() {
     // TODO: Change any to the correct type
     mutationFn: async (data: any) => {
       // TODO: Implement API call
-      console.log('Creating account', data);
+      console.log('Creating category', data);
       return true;
     },
     onSuccess: () => {
-      toast.success('Account created successfully');
-      queryClient.invalidateQueries({ queryKey: ['accounts'] });
+      toast.success('Category created successfully');
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
     },
     onError: () => {
-      toast.error('Failed to create account');
+      toast.error('Failed to create category');
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
       // TODO: Implement API call
-      console.log('Deleting account with id', id);
+      console.log('Deleting category with id', id);
       return true;
     },
     onSuccess: (_data, { id }) => {
-      toast.success('Account deleted');
-      queryClient.invalidateQueries({ queryKey: ['accounts', { id }] });
-      queryClient.invalidateQueries({ queryKey: ['accounts'] });
+      toast.success('Category deleted');
+      queryClient.invalidateQueries({ queryKey: ['categories', { id }] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       queryClient.invalidateQueries({ queryKey: ['summary'] });
     },
     onError: () => {
-      toast.error('Failed to delete account');
+      toast.error('Failed to delete category');
     },
   });
 
   const deleteInBulkMutation = useMutation({
     mutationFn: async ({ ids }: { ids: string[] }) => {
       // TODO: Implement API call
-      console.log('Deleting accounts', ids);
+      console.log('Deleting categories', ids);
       return true;
     },
     onSuccess: () => {
-      toast.success('Accounts deleted');
-      queryClient.invalidateQueries({ queryKey: ['accounts'] });
+      toast.success('Categories deleted');
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       queryClient.invalidateQueries({ queryKey: ['summary'] });
     },
     onError: () => {
-      toast.error('Failed to delete accounts');
+      toast.error('Failed to delete categories');
     },
   });
 
   return {
     isLoading: isLoading || createMutation.isPending || deleteMutation.isPending || deleteInBulkMutation.isPending,
-    accounts: accounts ?? [],
-    createAccount: createMutation.mutateAsync,
-    deleteAccount: deleteMutation.mutateAsync,
-    deleteAccounts: deleteInBulkMutation.mutateAsync,
+    categories: categories ?? [],
+    createCategory: createMutation.mutateAsync,
+    deleteCategory: deleteMutation.mutateAsync,
+    deleteCategories: deleteInBulkMutation.mutateAsync,
   };
 }
