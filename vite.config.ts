@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import Unfonts from 'unplugin-fonts/vite';
@@ -17,6 +18,7 @@ export default defineConfig({
       routeToken: 'layout',
       autoCodeSplitting: true,
     }),
+    tailwindcss(),
     react(),
     Unfonts({
       google: {

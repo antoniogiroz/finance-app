@@ -17,8 +17,8 @@ function AccountsPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
-        <Card className="border-none drop-shadow-sm">
+      <div className="max-w-(--breakpoint-2xl) mx-auto w-full pb-10 -mt-24">
+        <Card className="border-none drop-shadow-xs">
           <CardHeader>
             <Skeleton className="h-8 w-48" />
           </CardHeader>
@@ -33,8 +33,8 @@ function AccountsPage() {
   }
 
   return (
-    <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
-      <Card className="border-none drop-shadow-sm">
+    <div className="max-w-(--breakpoint-2xl) mx-auto w-full pb-10 -mt-24">
+      <Card className="border-none drop-shadow-xs">
         <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
           <CardTitle className="text-xl line-clamp-1">Accounts page</CardTitle>
           <Button onClick={() => open()} size="sm">
